@@ -1,3 +1,6 @@
+
+"use server"
+
 const apiUrl = "https://bundeeapi1.azurewebsites.net/";
 
 interface CallApiResponse {
