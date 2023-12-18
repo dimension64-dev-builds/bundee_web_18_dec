@@ -1,0 +1,46 @@
+"use server"
+
+export const getUserExistOrNotConfirmation = async (getuserInfoData: any, authToken: string) => {
+
+ 
+
+    const testdata = JSON.stringify(getuserInfoData);
+
+
+    const url = "http://4.240.86.202:8080/api/v1/user/getUserByEmail";
+
+    const headersList = {
+        Accept: '*/*',
+        bundee_auth_token: authToken,
+        'Content-Type': 'application/json',
+        
+    };
+
+    try {
+        const response = await fetch(url, {
+            headers: headersList,
+            method: 'POST',
+            body: JSON.stringify(getuserInfoData),
+            cache: 'no-cache',
+
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        
+        return {
+            errorcode: data?.errorCode,
+            isUserExist: data?.userResponse === null ? true : false,
+            isPersonaVerified:data.driverProfiles.length == 0?'false':'true',
+            userId: data?.userResponse?.iduser,
+        };
+
+    } catch (error) {
+        console.error('Error fetching user existence data:', error);
+        throw new Error('An error occurred while checking user existence.');
+    }
+};
