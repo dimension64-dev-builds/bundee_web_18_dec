@@ -33,6 +33,7 @@
         "lucide-react": "^0.294.0",
         "next": "14.0.4",
         "next-usequerystate": "^1.13.2",
+        "persona": "^4.11.0",
         "pnpm": "^8.12.0",
         "react": "^18",
         "react-aria": "^3.30.0",
