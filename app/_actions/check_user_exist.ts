@@ -2,9 +2,6 @@
 
 export const getUserExistOrNotConfirmation = async (getuserInfoData: any, authToken: string) => {
 
- 
-
-    const testdata = JSON.stringify(getuserInfoData);
 
 
     const url = "http://4.240.86.202:8080/api/v1/user/getUserByEmail";
@@ -13,7 +10,7 @@ export const getUserExistOrNotConfirmation = async (getuserInfoData: any, authTo
         Accept: '*/*',
         bundee_auth_token: authToken,
         'Content-Type': 'application/json',
-        
+
     };
 
     try {
@@ -31,11 +28,11 @@ export const getUserExistOrNotConfirmation = async (getuserInfoData: any, authTo
 
         const data = await response.json();
 
-        
+
         return {
             errorcode: data?.errorCode,
             isUserExist: data?.userResponse === null ? true : false,
-            isPersonaVerified:data.driverProfiles.length == 0?'false':'true',
+            isPersonaVerified: data?.driverProfiles?.length == 0 ? 'false' : 'true',
             userId: data?.userResponse?.iduser,
         };
 
