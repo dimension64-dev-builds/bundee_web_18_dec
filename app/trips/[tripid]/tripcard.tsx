@@ -296,7 +296,7 @@ const TripsDetails = ({ tripsData }) => {
                             <div className='mt-4 lg:row-span-3 lg:mt-0'>
                                 <div className='flex flex-col gap-3'>
                                     <p className='text-3xl font-bold tracking-tight text-neutral-900'>{`$${item.vehicleDetails[0].price_per_hr} / day`}</p>
-                                    <p className='text-base text-gray-900'>${item.tripPaymentTokens[0].totalamount} Total</p>
+                                    <p className='text-base text-gray-900'>${(item.tripPaymentTokens[0].tripTaxAmount).toFixed(2)} Total</p>
 
                                     <p className='font-bold'>
                                         No of Days : <span className='text-base text-gray-900'>{item.tripPaymentTokens[0].totaldays}</span>

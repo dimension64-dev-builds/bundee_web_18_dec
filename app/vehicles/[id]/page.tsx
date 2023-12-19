@@ -83,11 +83,6 @@ export default function SingleVehicleDetails({ params }: { params: { id: string 
             }
         };
 
-        // const deStructredQuery = Object.entries(searchParams)
-        //     .map(([key, value]: any) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-        //     .join('&');
-        // setSearchQuery(deStructredQuery);
-
         if (!pickupDate) {
             setPickupDate(startDate.toString());
         }
@@ -107,7 +102,7 @@ export default function SingleVehicleDetails({ params }: { params: { id: string 
         // Calculate the time difference in days
         const timeDifferenceInDays = differenceInDays(endDate, startDate);
 
-        return timeDifferenceInDays;
+        return timeDifferenceInDays + 1;
     }
 
     function totalAmount() {
@@ -362,7 +357,7 @@ export default function SingleVehicleDetails({ params }: { params: { id: string 
                                             <ul role='list' className='list-disc space-y-2 pl-4 text-sm'>
                                                 <li className='text-neutral-600'>
                                                     Total Rent Charge ${vehicleDetails.price_per_hr} X {calculateTimeDifference()} days = ${totalAmount()}
-                                                </li>
+                                                </li>x
                                                 <li className='text-neutral-600'>Taxes 8.2% equals $ {calTaxes()}</li>
                                                 <li className='text-neutral-600'>Authorization Charges : {authPercentage || 20}%</li>
                                             </ul>

@@ -22,6 +22,8 @@ interface VehicleDetailsParams {
 
 export default function SingleVehicleDetails() {
 
+  // const booted = true;
+
   const [vehicleImage, setVehicleImage] = useState("");
   const [vehicleName, setVehicleName] = useState("");
   const [sd, setSd] = useState("");
@@ -44,19 +46,22 @@ export default function SingleVehicleDetails() {
 
   useEffect(() => {
 
-    const pathSegments = window.location.pathname.split('/');
-    const id = pathSegments[pathSegments.length - 1];
-    const queryParams = window.location.search.slice(1).split('?');
-    const startDate = queryParams[0];
-    const endDate = queryParams[1];
-    const pickupTime = queryParams[2];
-    const dropTime = queryParams[3];
-    const pricePerHour = queryParams[4];
+    // const pathSegments = window.location.pathname.split('/');
+    // const id = pathSegments[pathSegments.length - 1];
+    // const queryParams = window.location.search.slice(1).split('?');
+    // const startDate = queryParams[0];
+    // const endDate = queryParams[1];
+    // const pickupTime = queryParams[2];
+    // const dropTime = queryParams[3];
+    // const pricePerHour = queryParams[4];
+    // setParams({ id, startDate, endDate, pickupTime, dropTime, pricePerHour });
 
-    setParams({ id, startDate, endDate, pickupTime, dropTime, pricePerHour });
+
     fetchVehicleMetaData();
     fetchPricing();
     setElementFetched(true);
+
+
   }, []);
 
 
@@ -70,8 +75,6 @@ export default function SingleVehicleDetails() {
     setSd(input.startDate);
     setEd(input.endDate);
 
-
-
   }
 
   const submit = async () => {
@@ -84,7 +87,6 @@ export default function SingleVehicleDetails() {
       confirmParams: {
         return_url: window.location.origin + "/trips",
         receipt_email: localStorage.getItem("session_user"),
-
       },
       redirect: "if_required",
     });
@@ -92,7 +94,7 @@ export default function SingleVehicleDetails() {
       console.error(error);
       handleError();
       setPaybuttonText("Continue to Payment");
-    } else if (paymentIntent && paymentIntent.status === "succeeded") {
+    } else if (paymentIntent && paymentIntent.status === "requires_capture") {
       console.log("Payment succeeded");
       handleSuccess();
     } else {
@@ -205,15 +207,21 @@ export default function SingleVehicleDetails() {
     })
       .then(response => response.json())
       .then(async (result) => {
+        console.log(result);
         setParams(result.response);
-        const { clientSecret } = result.response.stripePaymentToken;
+        
+        const  clientSecret  = result.response.client_secret;
+
+        alert(clientSecret);
+       
         const appearance = {
           theme: 'stripe',
         };
+
+        // e.g. stripe.elements({clientSecret: "{{CLIENT_SECRET}}"})
+        
         stripe = Stripe('pk_test_51Nic7WAHBUVqiOLM8iq27Panp1plb9MLTiNSI7LVCXyMTfqFT5v0Xvgw61WKc71ShUVXz09HduhqMeMWHlcwylh700sDTMgYm2')
-        elements = stripe.elements({
-          clientSecret: result.response.stripePaymentToken,
-        });
+        elements = stripe.elements({ clientSecret: clientSecret });
         const paymentElementOptions = {
           layout: "tabs",
         };
